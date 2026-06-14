@@ -251,6 +251,9 @@ def apply_color_grade(linear_rgb, params):
     ``blue_saturation_boost``    *optional* extra saturation for 200–260°
     ``blue_luminance_shift``     *optional* luminance offset for blue hues
     ``blue_hue_shift``           *optional* hue offset for blue hues (deg)
+    ``green_saturation_boost``   *optional* extra saturation for 85–155°
+    ``green_luminance_shift``    *optional* luminance offset for green hues
+    ``green_hue_shift``          *optional* hue offset for green hues (deg)
     ``white_balance_shift_k``    *optional* Kelvin-approximate WB shift
     ===========================  ==========================================
 
@@ -272,6 +275,9 @@ def apply_color_grade(linear_rgb, params):
     blue_sat_boost   = C.get('blue_saturation_boost', 1.0)
     blue_lum_shift   = C.get('blue_luminance_shift', 0.0)
     blue_hue_shift   = C.get('blue_hue_shift', 0.0)
+    green_sat_boost  = C.get('green_saturation_boost', 1.0)
+    green_lum_shift  = C.get('green_luminance_shift', 0.0)
+    green_hue_shift  = C.get('green_hue_shift', 0.0)
     wb_shift_k       = C.get('white_balance_shift_k', 0.0)
 
     rgb = np.asarray(linear_rgb, dtype=np.float64)
@@ -339,6 +345,14 @@ def apply_color_grade(linear_rgb, params):
             s[blue_mask] = s[blue_mask] * blue_sat_boost
             h[blue_mask] = h[blue_mask] + blue_hue_shift
             l_hsl[blue_mask] = np.clip(l_hsl[blue_mask] + blue_lum_shift, 0.0, 1.0)
+
+    # ---- Step 8b: Optional Green channel boost (Fuji Green / C200 signature) ----
+    if abs(green_sat_boost - 1.0) > 0.001 or abs(green_hue_shift) > 0.001 or abs(green_lum_shift) > 0.001:
+        green_mask = (h >= 85.0) & (h <= 155.0)
+        if np.any(green_mask):
+            s[green_mask] = s[green_mask] * green_sat_boost
+            h[green_mask] = h[green_mask] + green_hue_shift
+            l_hsl[green_mask] = np.clip(l_hsl[green_mask] + green_lum_shift, 0.0, 1.0)
 
     # ---- Convert back to RGB ----
     r, g, b = hsl_to_rgb(h, s, l_hsl)
