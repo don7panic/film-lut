@@ -8,6 +8,7 @@ Signature: warm skin tones, cyan-biased shadows, 3-layer emulsion contrast.
 PRESET = {
     'name': '5219',
     'title': 'Kodak Vision3 5219 (500T)',
+    'skip_vlog': True,  # V-Log LUT has normalization bug, Standard only
 
     'tone': {
         'black_lift': 0.0018,

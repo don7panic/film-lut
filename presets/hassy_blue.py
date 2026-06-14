@@ -28,6 +28,7 @@ Key adjustments (v2 audit corrections):
 PRESET = {
     'name': 'hassy_blue',
     'title': 'Hasselblad HNCS (Natural Color)',
+    'skip_vlog': True,  # V-Log path has shadow deadzone bug — Standard only
 
     'tone': {
         # "Hasselblad Film Curve" — perceptually enhanced midtone contrast

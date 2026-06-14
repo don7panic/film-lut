@@ -44,6 +44,7 @@ Key differentiators from existing presets:
 PRESET = {
     'name': 'leica_classic',
     'title': 'Leica Classic Look — Draft v1',
+    'skip_standard': True,  # Leica Classic is calibrated for V-Log input only
 
     'tone': {
         # Medium-high contrast with preserved shadow detail
