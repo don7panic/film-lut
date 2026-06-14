@@ -123,17 +123,29 @@ def main():
     if c.get('blue_saturation_boost', 1.0) != 1.0:
         print(f"  Blue boost:         sat={c['blue_saturation_boost']:.2f}, lum={c.get('blue_luminance_shift', 0):+.2f}, hue={c.get('blue_hue_shift', 0):+.0f}°")
 
-    # Generate V-Log LUT
-    print(f"\n[1/2] Generating V-Log → {preset_name.upper()} LUT...")
-    vlog_lut = generate_vlog_lut(size, preset)
-    vlog_path = os.path.join(luts_dir, f'S9_VLog_to_{preset_name}.cube')
-    write_cube_file(vlog_path, vlog_lut, f"Panasonic S9 V-Log to {preset_title}")
+    # Generate V-Log LUT (skip if preset doesn't need V-Log)
+    skip_vlog = preset.get('skip_vlog', False)
+    skip_std = preset.get('skip_standard', False)
+    vlog_path = None
+    std_path = None
+
+    step = 0
+    total_steps = (0 if skip_vlog else 1) + (0 if skip_std else 1)
+
+    if not skip_vlog:
+        step += 1
+        print(f"\n[{step}/{total_steps}] Generating V-Log → {preset_name.upper()} LUT...")
+        vlog_lut = generate_vlog_lut(size, preset)
+        vlog_path = os.path.join(luts_dir, f'S9_VLog_to_{preset_name}.cube')
+        write_cube_file(vlog_path, vlog_lut, f"Panasonic S9 V-Log to {preset_title}")
 
     # Generate Standard LUT
-    print(f"\n[2/2] Generating Standard → {preset_name.upper()} LUT...")
-    std_lut = generate_standard_lut(size, preset)
-    std_path = os.path.join(luts_dir, f'S9_Standard_to_{preset_name}.cube')
-    write_cube_file(std_path, std_lut, f"Panasonic S9 Standard to {preset_title}")
+    if not skip_std:
+        step += 1
+        print(f"\n[{step}/{total_steps}] Generating Standard → {preset_name.upper()} LUT...")
+        std_lut = generate_standard_lut(size, preset)
+        std_path = os.path.join(luts_dir, f'S9_Standard_to_{preset_name}.cube')
+        write_cube_file(std_path, std_lut, f"Panasonic S9 Standard to {preset_title}")
 
     # Preview
     if args.preview:
@@ -141,8 +153,10 @@ def main():
 
     print(f"\n{'=' * 60}")
     print("Done! Copy .cube files to your S9's SD card:")
-    print(f"  {vlog_path}")
-    print(f"  {std_path}")
+    if vlog_path:
+        print(f"  {vlog_path}")
+    if std_path:
+        print(f"  {std_path}")
     print(f"{'=' * 60}")
 
 
