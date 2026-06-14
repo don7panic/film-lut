@@ -6,6 +6,7 @@ Film emulation 3D LUT generator for the Panasonic S9 camera. Generates `.cube` L
 
 | Preset | Description |
 |--------|-------------|
+| `5207` | Kodak Vision3 250D (5207) — natural soft skin tones, clear blue skies, neutral daylight balance |
 | `5219` | Kodak Vision3 5219 (500T) — warm skin tones, cyan-biased shadows, 3-layer emulsion contrast |
 | `gold200` | Kodak Gold 200 — warm golden consumer film, amber reds, nostalgic skies |
 | `hassy_blue` | Hasselblad HNCS-inspired — natural color with enhanced blue rendering |
