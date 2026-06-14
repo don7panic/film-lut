@@ -4,6 +4,13 @@ Leica Classic Look — Draft v1
 Based on 3-round deep investigation of Leica color profiles (2026-06-14).
 See: docs/superpowers/research/2026-06-14-leica-final-report.md
 
+Intended for V-Log / V-Gamut input. The V-Log LUT handles:
+  1. V-Log → scene-linear decoding
+  2. V-Gamut → Rec.709 gamut conversion
+  3. Leica Classic tone curve
+  4. Leica Classic creative color grade
+  5. Rec.709 display gamma encoding
+
 Leica Classic is available across all three Leica color tiers:
   • Leica FOTOS app (downloadable to Q3/SL3)
   • Leica LUX iPhone app (Pro subscription)
