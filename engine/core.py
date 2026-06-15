@@ -25,13 +25,13 @@ def vlog_to_linear(v):
 
     Inverse of Panasonic V-Log:
       If V < 0.181           → E = (V − 0.125) / 5.6
-      Else                   → E = (10^((V − 0.598206) / 0.241514) − 0.598206) / 0.00873
+      Else                   → E = 10^((V − 0.598206) / 0.241514) − 0.00873
     """
     v = np.asarray(v, dtype=np.float64)
     linear = np.where(
         v < VLOG_CROSSOVER,
         (v - 0.125) / 5.6,
-        (np.power(10.0, (v - VLOG_D) / VLOG_C) - VLOG_D) / VLOG_B,
+        np.power(10.0, (v - VLOG_D) / VLOG_C) - VLOG_B,
     )
     return np.clip(linear, 0.0, None)
 
@@ -40,13 +40,13 @@ def linear_to_vlog(linear):
     """Convert scene-linear to V-Log (forward direction). Used for validation.
 
       If E < 0.01 → V = 5.6·E + 0.125
-      Else        → V = 0.241514·log10(0.00873·E + 0.598206) + 0.598206
+      Else        → V = 0.241514·log10(E + 0.00873) + 0.598206
     """
     linear = np.asarray(linear, dtype=np.float64)
     vlog = np.where(
         linear < VLOG_CUT1,
         5.6 * linear + 0.125,
-        VLOG_C * np.log10(VLOG_B * linear + VLOG_D) + VLOG_D,
+        VLOG_C * np.log10(linear + VLOG_B) + VLOG_D,
     )
     return np.clip(vlog, 0.0, 1.0)
 
@@ -167,10 +167,11 @@ def apply_tone_curve(linear_rgb, params):
             s_compressed = s ** highlight_shoulder_power
             linear[mask, c] = highlight_shoulder_start + s_compressed * (1.0 - highlight_shoulder_start)
 
-    # 5. Re-normalize
-    max_val = np.max(linear)
-    if max_val > 1.0:
-        linear = linear / max_val
+    # 5. Re-normalize per sample, not across the whole LUT grid.
+    # V-Log LUT generation feeds values far above display white into this function;
+    # using a global max across the entire grid would crush all normal midtones.
+    max_val = np.max(linear, axis=1, keepdims=True)
+    linear = np.where(max_val > 1.0, linear / max_val, linear)
 
     if len(shape) == 1:
         linear = linear[0]
