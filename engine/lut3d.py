@@ -107,7 +107,7 @@ def write_cube_file(filename, lut_data, title="LUT"):
       LUT_3D_SIZE N
       DOMAIN_MIN 0.0 0.0 0.0
       DOMAIN_MAX 1.0 1.0 1.0
-      r g b  (B changes fastest, then G, then R)
+      r g b  (R changes fastest, then G, then B)
     """
     size = lut_data.shape[0]
     assert lut_data.shape == (size, size, size, 3), \
@@ -124,10 +124,10 @@ def write_cube_file(filename, lut_data, title="LUT"):
         f.write(f'DOMAIN_MAX 1.0 1.0 1.0\n')
         f.write('\n')
 
-        # .cube format: B changes fastest, then G, then R
-        for ri in range(size):
+        # .cube format: R changes fastest, then G, then B
+        for bi in range(size):
             for gi in range(size):
-                for bi in range(size):
+                for ri in range(size):
                     r, g, b = lut_data[ri, gi, bi]
                     f.write(f'{r:.8f} {g:.8f} {b:.8f}\n')
 
@@ -228,5 +228,11 @@ def load_cube_file(filename):
     if len(data) != expected:
         raise ValueError(f"Expected {expected} entries, got {len(data)}")
 
-    lut = np.array(data, dtype=np.float64).reshape(size, size, size, 3)
+    lut = np.empty((size, size, size, 3), dtype=np.float64)
+    idx = 0
+    for bi in range(size):
+        for gi in range(size):
+            for ri in range(size):
+                lut[ri, gi, bi] = data[idx]
+                idx += 1
     return lut
