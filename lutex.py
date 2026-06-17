@@ -137,7 +137,7 @@ def main():
         print(f"\n[{step}/{total_steps}] Generating V-Log → {preset_name.upper()} LUT...")
         vlog_lut = generate_vlog_lut(size, preset)
         vlog_path = os.path.join(luts_dir, f'S9_VLog_to_{preset_name}.cube')
-        write_cube_file(vlog_path, vlog_lut, f"Panasonic S9 V-Log to {preset_title}")
+        write_cube_file(vlog_path, vlog_lut, f"Panasonic S9 V-Log to {preset_title}", photo_style="VLOG")
 
     # Generate Standard LUT
     if not skip_std:
@@ -145,7 +145,7 @@ def main():
         print(f"\n[{step}/{total_steps}] Generating Standard → {preset_name.upper()} LUT...")
         std_lut = generate_standard_lut(size, preset)
         std_path = os.path.join(luts_dir, f'S9_Standard_to_{preset_name}.cube')
-        write_cube_file(std_path, std_lut, f"Panasonic S9 Standard to {preset_title}")
+        write_cube_file(std_path, std_lut, f"Panasonic S9 Standard to {preset_title}", photo_style="STD")
 
     # Preview
     if args.preview:

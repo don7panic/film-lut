@@ -171,7 +171,9 @@ def apply_tone_curve(linear_rgb, params):
     # V-Log LUT generation feeds values far above display white into this function;
     # using a global max across the entire grid would crush all normal midtones.
     max_val = np.max(linear, axis=1, keepdims=True)
-    linear = np.where(max_val > 1.0, linear / max_val, linear)
+    over_range = max_val[:, 0] > 1.0
+    if np.any(over_range):
+        linear[over_range] = linear[over_range] / max_val[over_range]
 
     if len(shape) == 1:
         linear = linear[0]
