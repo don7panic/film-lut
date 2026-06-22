@@ -47,6 +47,7 @@ Known caveats:
 PRESET = {
     'name': 'c200',
     'title': 'Fujifilm Fujicolor C200 (Japan)',
+    'lut_name': 'Fuji_c200',
     'skip_vlog': True,                     # C200 is a consumer film sim — Standard mode only
 
     'tone': {

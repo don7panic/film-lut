@@ -13,6 +13,7 @@ Output: Rec.709 display look for in-camera/LUMIX Lab use.
 PRESET = {
     'name': 'm9_ccd_soft',
     'title': 'Leica M9 CCD Soft — S9 V-Log v1',
+    'lut_name': 'Leica_m9_soft',
     'skip_standard': True,
 
     'tone': {

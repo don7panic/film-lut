@@ -129,18 +129,23 @@ class ShippedLutTests(unittest.TestCase):
     def test_shipped_luts_match_preset_skip_flags_and_lumix_tags(self):
         for preset_name in list_presets():
             preset = load_preset(preset_name)
+            lut_name = preset['lut_name']
+            skip_vlog = preset.get("skip_vlog", False)
+            skip_std = preset.get("skip_standard", False)
+            both = not skip_vlog and not skip_std
 
-            vlog_path = self.luts_dir / f"S9_VLog_to_{preset_name}.cube"
-            if preset.get("skip_vlog", False):
-                self.assertFalse(vlog_path.exists(), f"{vlog_path.name} should not ship")
-            else:
-                self.assert_lut_has_photo_style_tag(vlog_path, "VLOG")
-
-            std_path = self.luts_dir / f"S9_Standard_to_{preset_name}.cube"
-            if preset.get("skip_standard", False):
+            # Standard LUT (or sole LUT): <lut_name>.cube
+            std_path = self.luts_dir / f"{lut_name}.cube"
+            if skip_std and both:
                 self.assertFalse(std_path.exists(), f"{std_path.name} should not ship")
             else:
-                self.assert_lut_has_photo_style_tag(std_path, "STD")
+                tag = "STD" if skip_vlog else ("STD" if both else "VLOG")
+                self.assert_lut_has_photo_style_tag(std_path, tag)
+
+            # V-Log LUT when both ship: <lut_name>_VL.cube (distinct name)
+            if both:
+                vlog_path = self.luts_dir / f"{lut_name}_VL.cube"
+                self.assert_lut_has_photo_style_tag(vlog_path, "VLOG")
 
     def test_shipped_vlog_luts_keep_middle_gray_visible(self):
         mid_gray = np.array([433 / 1023, 433 / 1023, 433 / 1023], dtype=np.float64)
@@ -150,7 +155,10 @@ class ShippedLutTests(unittest.TestCase):
             if preset.get("skip_vlog", False):
                 continue
 
-            path = self.luts_dir / f"S9_VLog_to_{preset_name}.cube"
+            lut_name = preset['lut_name']
+            both = not preset.get("skip_vlog", False) and not preset.get("skip_standard", False)
+            vlog_fname = f"{lut_name}_VL.cube" if both else f"{lut_name}.cube"
+            path = self.luts_dir / vlog_fname
             lut = load_cube_file(path)
             output = apply_lut_to_image(lut, mid_gray.reshape(1, 1, 3))[0, 0]
             luma = float(output @ np.array([0.2126, 0.7152, 0.0722]))

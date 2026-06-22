@@ -12,7 +12,6 @@ Film emulation 3D LUT generator for the Panasonic S9 camera. Generates `.cube` L
 | `hassy_blue` | Hasselblad HNCS-inspired — natural color with enhanced blue rendering |
 | `ricoh_positive_film` | Ricoh Positive Film (ポジフィルム調) — Japanese positive film look |
 | `c200` | Fujifilm Fujicolor C200 (Japan) — vintage documentary, soft cinematic shadows, warm-red shadow signature |
-| `leica_classic` | Leica Classic Look — warm, high-contrast, deep cyan-tinged blues |
 
 ## Quick Start
 
@@ -33,25 +32,12 @@ uv run python lutex.py --list
 
 # Generate .cube LUTs (output → luts/)
 uv run python lutex.py --preset 5219
-uv run python lutex.py --preset gold200
-uv run python lutex.py --preset hassy_blue
-uv run python lutex.py --preset ricoh_positive_film
-
-# Generate LUTs + test reference image
-uv run python lutex.py --preset gold200 --preview
-
-# Custom LUT grid size (must be odd, default 33)
-uv run python lutex.py --preset 5219 --size 65
-
-# Apply a LUT to a photo (output → output/)
-uv run python lutex.py --preset 5219 --apply samples/Z30_3923.JPG
-
-# Apply with V-Log input (for S9 V-Log photos)
-uv run python lutex.py --preset 5219 --apply photo.jpg --apply-type vlog
-
-# Custom output directories
+uv run python lutex.py --preset gold200 --size 65
 uv run python lutex.py --preset 5219 --output /path/to/luts
-uv run python lutex.py --preset 5219 --apply photo.jpg --apply-output result.jpg
+
+# Apply a .cube LUT to a photo (output → output/)
+uv run python lutex.py --apply-cube luts/Ricoh_positive.cube samples/vlog.jpg
+uv run python lutex.py --apply-cube luts/Ricoh_positive.cube samples/vlog.jpg --apply-output result.jpg
 ```
 
 ## Project Structure

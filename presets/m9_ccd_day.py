@@ -18,6 +18,7 @@ Output: Rec.709 display look for in-camera/LUMIX Lab use.
 PRESET = {
     'name': 'm9_ccd_day',
     'title': 'Leica M9 CCD Day — S9 V-Log v1',
+    'lut_name': 'Leica_m9_day',
     'skip_standard': True,
 
     'tone': {

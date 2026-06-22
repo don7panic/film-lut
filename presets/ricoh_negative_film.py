@@ -29,6 +29,7 @@ See: docs/superpowers/research/2026-06-14-ricoh-final-report.md
 PRESET = {
     'name': 'ricoh_negative_film',
     'title': 'Ricoh Negative Film (ネガフィルム調)',
+    'lut_name': 'Ricoh_negative',
     'skip_standard': True,  # S9 Standard baseline incompatible with GR — V-Log only
 
     'tone': {

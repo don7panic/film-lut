@@ -22,6 +22,7 @@ See: docs/superpowers/research/2026-06-14-ricoh-final-report.md
 PRESET = {
     'name': 'ricoh_positive_film',
     'title': 'Ricoh Positive Film (ポジフィルム調)',
+    'lut_name': 'Ricoh_positive',
     'skip_standard': True,  # S9 Standard JPEG baseline differs from GR — V-Log only
 
     'tone': {

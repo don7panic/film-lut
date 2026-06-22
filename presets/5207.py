@@ -38,6 +38,7 @@ Known caveats:
 PRESET = {
     'name': '5207',
     'title': 'Kodak Vision3 250D (5207)',
+    'lut_name': 'Kodak_5207',
     'skip_vlog': True,  # V-Log 33³ loses 12.5% shadow range → Standard preferred
 
     'tone': {

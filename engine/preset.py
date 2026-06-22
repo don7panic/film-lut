@@ -67,7 +67,7 @@ def load_preset(name):
 
 def _validate(preset, name):
     """Validate preset structure. Raises ValueError on failure."""
-    required = ['name', 'title', 'tone', 'color']
+    required = ['name', 'title', 'lut_name', 'tone', 'color']
     for key in required:
         if key not in preset:
             raise ValueError(f"Preset '{name}' missing key: '{key}'")

@@ -18,7 +18,7 @@ import os, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from engine.core import (
-    apply_tone_curve, apply_color_grade, rgb_to_hsl,
+    apply_tone_curve, apply_color_grade, rgb_to_hsl, hsl_to_rgb,
     vlog_to_linear, linear_to_display, vgamut_to_rec709,
 )
 
@@ -328,8 +328,36 @@ def validate_features(results):
 # ============================================================================
 
 def generate_test_reference():
-    """Generate test_reference_c200.png using engine/apply.py logic."""
-    from engine.apply import _test_strip, _hue_wheel
+    """Generate test_reference_c200.png."""
+    # Inlined test-strip / hue-wheel helpers (no longer in engine.apply).
+    def _test_strip(lut_func, width=1920, height=200):
+        x = np.linspace(0, 1, width, dtype=np.float64)
+        h_gray = int(height * 0.4)
+        h_rgb = int(height * 0.2)
+        h_b = height - h_gray - 2 * h_rgb
+        strips = []
+        gray = np.tile(x, (h_gray, 1))
+        strips.append(np.stack([gray, gray, gray], axis=-1))
+        strips.append(np.stack([x, np.zeros_like(x), np.zeros_like(x)], axis=-1).reshape(1, width, 3).repeat(h_rgb, axis=0))
+        strips.append(np.stack([np.zeros_like(x), x, np.zeros_like(x)], axis=-1).reshape(1, width, 3).repeat(h_rgb, axis=0))
+        strips.append(np.stack([np.zeros_like(x), np.zeros_like(x), x], axis=-1).reshape(1, width, 3).repeat(h_b, axis=0))
+        image = np.concatenate(strips, axis=0)
+        flat = image.reshape(-1, 3)
+        result = np.clip(lut_func(flat), 0, 1)
+        return (result.reshape(image.shape) * 255).astype(np.uint8)
+
+    def _hue_wheel(lut_func, radius=300):
+        size = radius * 2
+        y, x = np.ogrid[-radius:radius, -radius:radius]
+        dist = np.sqrt(x*x + y*y) / radius
+        hue = ((np.arctan2(y, x) / (2*np.pi)) % 1.0) * 360.0
+        sat = np.clip(dist, 0.0, 1.0)
+        lum = np.full_like(sat, 0.5)
+        r, g, b = hsl_to_rgb(hue.flatten(), sat.flatten(), lum.flatten())
+        rgb_flat = np.column_stack([r, g, b])
+        result = lut_func(rgb_flat).reshape(size, size, 3)
+        result[dist > 1.0] = 0.2
+        return (result * 255).astype(np.uint8)
 
     try:
         from PIL import Image, ImageDraw, ImageFont

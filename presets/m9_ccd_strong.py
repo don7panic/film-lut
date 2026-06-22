@@ -15,6 +15,7 @@ Output: Rec.709 display look for in-camera/LUMIX Lab use.
 PRESET = {
     'name': 'm9_ccd_strong',
     'title': 'Leica M9 CCD Strong — S9 V-Log v1',
+    'lut_name': 'Leica_m9_strong',
     'skip_standard': True,
 
     'tone': {

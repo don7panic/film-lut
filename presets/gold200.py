@@ -32,6 +32,7 @@ Refs: Fuji X Weekly Gold 200 recipe (fujixweekly.com), Dehancer profile,
 PRESET = {
     'name': 'gold200',
     'title': 'Kodak Gold 200 (Warm Golden) v2',
+    'lut_name': 'Kodak_gold200',
 
     'tone': {
         'black_lift':                0.0020,       # Film base
