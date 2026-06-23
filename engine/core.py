@@ -274,7 +274,7 @@ def apply_color_grade(linear_rgb, params):
     teal_push      = C['teal_push']
     orange_push    = C['orange_push']
 
-    # Optional Hasselblad Blue / extended params
+    # Optional extended color params (blue/green channel boosts, WB shift)
     blue_sat_boost   = C.get('blue_saturation_boost', 1.0)
     blue_lum_shift   = C.get('blue_luminance_shift', 0.0)
     blue_hue_shift   = C.get('blue_hue_shift', 0.0)
@@ -341,7 +341,7 @@ def apply_color_grade(linear_rgb, params):
     if orange_push != 0.0 and np.any(red_mask):
         h[red_mask] = (h[red_mask] + orange_push) % 360.0
 
-    # ---- Step 8: Optional Hasselblad Blue channel boost ----
+    # ---- Step 8: Optional blue channel boost ----
     if abs(blue_sat_boost - 1.0) > 0.001 or abs(blue_hue_shift) > 0.001 or abs(blue_lum_shift) > 0.001:
         blue_mask = (h >= 200.0) & (h <= 260.0)
         if np.any(blue_mask):

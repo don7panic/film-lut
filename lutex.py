@@ -4,8 +4,8 @@ Film Emulation LUT Generator — CLI Entry Point
 
 Usage:
   python lutex.py --list                                          # List available presets
-  python lutex.py --preset 5219                                   # Generate .cube LUTs
-  python lutex.py --preset 5219 --size 65                         # Custom LUT size
+  python lutex.py --preset 5207                                   # Generate .cube LUTs
+  python lutex.py --preset 5207 --size 65                         # Custom LUT size
   python lutex.py --apply-cube luts/Ricoh_positive.cube pic.jpg   # Apply LUT to a photo
 """
 
@@ -26,7 +26,7 @@ def main():
 
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--preset', type=str, default=None,
-                      help='Preset name (e.g. 5219, hassy_blue) — generate .cube LUTs')
+                      help='Preset name (e.g. 5207, gold200) — generate .cube LUTs')
     mode.add_argument('--apply-cube', nargs=2, metavar=('CUBE', 'IMAGE'), default=None,
                       help='Apply a .cube LUT to an image (output → output/)')
     mode.add_argument('--list', action='store_true',

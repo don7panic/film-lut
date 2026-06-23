@@ -7,9 +7,7 @@ Film emulation 3D LUT generator for the Panasonic S9 camera. Generates `.cube` L
 | Preset | Description |
 |--------|-------------|
 | `5207` | Kodak Vision3 250D (5207) — natural soft skin tones, clear blue skies, neutral daylight balance |
-| `5219` | Kodak Vision3 5219 (500T) — warm skin tones, cyan-biased shadows, 3-layer emulsion contrast |
 | `gold200` | Kodak Gold 200 — warm golden consumer film, amber reds, nostalgic skies |
-| `hassy_blue` | Hasselblad HNCS-inspired — natural color with enhanced blue rendering |
 | `ricoh_positive_film` | Ricoh Positive Film (ポジフィルム調) — Japanese positive film look |
 | `c200` | Fujifilm Fujicolor C200 (Japan) — vintage documentary, soft cinematic shadows, warm-red shadow signature |
 
@@ -31,9 +29,9 @@ python lutex.py --list
 uv run python lutex.py --list
 
 # Generate .cube LUTs (output → luts/)
-uv run python lutex.py --preset 5219
+uv run python lutex.py --preset 5207
 uv run python lutex.py --preset gold200 --size 65
-uv run python lutex.py --preset 5219 --output /path/to/luts
+uv run python lutex.py --preset 5207 --output /path/to/luts
 
 # Apply a .cube LUT to a photo (output → output/)
 uv run python lutex.py --apply-cube luts/Ricoh_positive.cube samples/vlog.jpg
@@ -60,7 +58,7 @@ film/
 
 ## Using on Panasonic S9
 
-1. Generate the LUTs you want: `uv run python lutex.py --preset 5219`
+1. Generate the LUTs you want: `uv run python lutex.py --preset 5207`
 2. Copy the `.cube` files from `luts/` to your S9's SD card:
    - `S9_VLog_to_*.cube` — for V-Log shooting
    - `S9_Standard_to_*.cube` — for Standard (Rec.709) shooting

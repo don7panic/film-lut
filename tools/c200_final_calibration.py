@@ -49,7 +49,7 @@ PRESET = {
 
         # ---- Excellent highlight latitude ----
         # Evidence: i50mm "高光有很不错的宽容度"
-        # [INFERRED] — guided by 5219's highlight preservation strategy
+        # [INFERRED] — guided by Vision3 highlight preservation strategy
         'highlight_shoulder_start':  0.72,
         'highlight_shoulder_power':  1.22,         # [INFERRED] Moderate roll-off, preserves highlight detail
     },
@@ -86,7 +86,7 @@ PRESET = {
         #   像素侠: skin H_med=19-34°, S=0.29-0.43
         #   "细腻自然温暖，不推橙" vs Gold 200's strong orange push
         # [MEASURED] — pixel data + community consensus
-        'skin_hue_min':            14.0,                   # [INFERRED] Slightly wider than 5219's 10-35
+        'skin_hue_min':            14.0,                   # [INFERRED] Slightly wider than typical 10-35
         'skin_hue_max':            36.0,
         'skin_sat_adjust':         0.98,                   # [MEASURED] Near-neutral — "生动再现" not muted
 

@@ -14,16 +14,15 @@ Design philosophy:
   2. Natural skin tones — "专为人像设计", orange_push=0, skin_sat=0.93
   3. Enhanced blue rendering — "蓝天清澈明亮", blue_sat=1.12, hue=-4°
   4. Soft cinematic contrast (0.98) — "反差不大" but Vision3 latitude
-  5. Neutral shadows — no 5219-like cyan bias, no Gold-like warmth
+  5. Neutral shadows — no cyan bias, no Gold-like warmth
   6. Vision3 platform: B>G>R per-channel, superior highlight latitude
 
 Key differentiators from existing presets:
-  vs 5219: cooler WB, neutral shadows (vs cyan), lower contrast, higher sat, natural blue
   vs Gold 200: much cooler, natural vs golden skin, blue boost vs muted blue
   vs C200: neutral vs warm-red shadows, blue boost vs natural CCB=Off, no green shift
 
 Evidence legend (per parameter):
-  [PLATFORM]  — shared Vision3 trait, confirmed via 5219 audit
+  [PLATFORM]  — shared Vision3 trait
   [INFERRED]  — reasoned from multiple community sources
   [GUESS]     — single source only, needs pixel verification
 
@@ -43,20 +42,20 @@ PRESET = {
 
     'tone': {
         # ---- Vision3 platform shared ----
-        # [PLATFORM] — Same emulsion base as 5219
+        # [PLATFORM] — Vision3 emulsion base
         'black_lift':                0.0018,       # Vision3 film base+fog
         'shadow_toe_pivot':          0.12,         # Vision3 shared pivot
 
-        # ---- Softer than 5219, sharper than C200 ----
+        # ---- Softer toe, sharper than C200 ----
         # [INFERRED] — 知乎"反差不大" + EMULSIVE "bright/contrasty ↔ soft/pastel"
         #   5207 is versatile, base contrast near neutral
-        'shadow_toe_power':          0.85,         # [INFERRED] 5219=0.82, 5207 has more shadow detail
-        'contrast':                  0.98,         # [INFERRED] Lower than 5219(1.08), higher than C200(0.96)
+        'shadow_toe_power':          0.85,         # [INFERRED] Soft toe, good shadow detail
+        'contrast':                  0.98,         # [INFERRED] Lower than Gold200, higher than C200(0.96)
 
         # ---- Vision3 3-layer emulsion ----
         # [INFERRED] — Deakins forum: "Blue and Green curves slightly steeper than Red"
-        #   5219参考: [1.02, 1.00, 1.06]; 5207日光卷不需要钨丝灯B偏补偿
-        #   v0.2 实测: R/G=1.211, B/G=0.691（与5219/Gold200明显区分）
+        #   Vision3 参考: B channel slightly steeper; 5207日光卷不需要钨丝灯B偏补偿
+        #   v0.2 实测: R/G=1.211, B/G=0.691（与Gold200明显区分）
         'per_channel_contrast':      [1.00, 1.00, 1.02],  # R, G, B — [INFERRED] 日光平衡保守估计
 
         # ---- Superior highlight latitude (-5.4 → +7 stops) ----
@@ -66,16 +65,16 @@ PRESET = {
     },
 
     'color': {
-        # ---- Neutral shadow: no cyan bias (unlike 5219), no warm-red (unlike C200) ----
+        # ---- Neutral shadow: no cyan bias, no warm-red (unlike C200) ----
         # [INFERRED] — 豆瓣: "阴影下的偏蓝色透着淡淡的暖调"
-        #   Compared to 5219 shadow_tint=[1.00,1.00,1.03] (cyan), 5207 is neutral
+        #   5207 shadow is near-neutral (micro-blue warmth)
         'shadow_tint':             [1.00, 1.00, 1.01],     # [INFERRED] Near-neutral, micro-blue warmth
 
         # ---- Neutral highlight: no warm compensation needed (daylight native) ----
-        # [INFERRED] — 5219 needs warm highlight (tungsten→daylight), 5207 doesn't
+        # [INFERRED] — Tungsten-balanced films need warm highlight; 5207 (daylight) doesn't
         'highlight_tint':          [1.00, 1.00, 1.00],     # [INFERRED] Pure neutral
 
-        # ---- Moderate saturation: between 5219(0.90) and Gold(1.12) ----
+        # ---- Moderate saturation: below neutral, well below Gold(1.12) ----
         # [INFERRED] — EMULSIVE "vividly represented" BUT 知乎 "颜色偏清淡"
         #   5207 has good color separation without oversaturation
         'global_saturation':        0.98,                   # [INFERRED] Slightly below neutral
@@ -88,7 +87,7 @@ PRESET = {
         # ---- Natural skin tones for portraiture ----
         # [INFERRED] — EMULSIVE "all manner of skin tones handled with ease"
         #   + B站 "更适合东方肤色" + user requirement "自然柔和"
-        #   Slightly wider than 5219(10-35°) for Asian skin range
+        #   Slightly wider than typical (10-35°) for Asian skin range
         'skin_hue_min':            12.0,                   # [INFERRED]
         'skin_hue_max':            36.0,                   # [INFERRED] Asian + Caucasian coverage
         'skin_sat_adjust':         0.93,                   # [INFERRED] Gentle softening

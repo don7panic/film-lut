@@ -28,7 +28,7 @@ def load_preset(name):
     """Load and validate a preset by name.
 
     Args:
-        name: e.g. ``'5219'`` or ``'hassy_blue'``
+        name: e.g. ``'5207'`` or ``'gold200'``
 
     Returns:
         The ``PRESET`` dict from the corresponding ``presets/<name>.py``.
