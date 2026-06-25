@@ -8,7 +8,6 @@ Film emulation 3D LUT generator for the Panasonic S9 camera. Generates `.cube` L
 |--------|-------------|
 | `5207` | Kodak Vision3 250D (5207) — natural soft skin tones, clear blue skies, neutral daylight balance |
 | `gold200` | Kodak Gold 200 — warm golden consumer film, amber reds, nostalgic skies |
-| `ricoh_positive_film` | Ricoh Positive Film (ポジフィルム調) — Japanese positive film look |
 | `c200` | Fujifilm Fujicolor C200 (Japan) — vintage documentary, soft cinematic shadows, warm-red shadow signature |
 
 ## Quick Start
@@ -34,8 +33,8 @@ uv run python lutex.py --preset gold200 --size 65
 uv run python lutex.py --preset 5207 --output /path/to/luts
 
 # Apply a .cube LUT to a photo (output → output/)
-uv run python lutex.py --apply-cube luts/Ricoh_positive.cube samples/vlog.jpg
-uv run python lutex.py --apply-cube luts/Ricoh_positive.cube samples/vlog.jpg --apply-output result.jpg
+uv run python lutex.py --apply-cube luts/Kodak_5207.cube samples/vlog.jpg
+uv run python lutex.py --apply-cube luts/Kodak_5207.cube samples/vlog.jpg --apply-output result.jpg
 ```
 
 ## Project Structure

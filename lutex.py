@@ -6,7 +6,7 @@ Usage:
   python lutex.py --list                                          # List available presets
   python lutex.py --preset 5207                                   # Generate .cube LUTs
   python lutex.py --preset 5207 --size 65                         # Custom LUT size
-  python lutex.py --apply-cube luts/Ricoh_positive.cube pic.jpg   # Apply LUT to a photo
+  python lutex.py --apply-cube luts/Kodak_5207.cube pic.jpg       # Apply LUT to a photo
 """
 
 import os
